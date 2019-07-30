@@ -24,7 +24,7 @@ def clearafterspilt(labelTxtpath):
 
     for i in emptynamelistohne:
 
-        name = '/home/dingjin/DOTA/val_416_no_empty/images/' + i + '.png'
+        name = '/imagespath/' + i + '.png'
         os.path.normpath(name)
         print(name)
         os.remove(name) #delete the image
@@ -35,4 +35,4 @@ def clearafterspilt(labelTxtpath):
 #print("ready to go next")
 
 if __name__ == "__main__":
-    clearafterspilt('/home/dingjin/DOTA/val_416_no_empty/labelTxt/')
+    clearafterspilt('/DOTAlabelTxt/')
