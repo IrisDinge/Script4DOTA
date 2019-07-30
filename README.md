@@ -8,6 +8,6 @@ pl notice that you should change the dota_transfer.py in DOTA_YOLOv2
 not output (x, y, w, h) rather than (x_min, y_min, x_max, y_max)
 Then begin to use this kit
 
-# Attention: it better to be int type
+Attention: it better to be int type
 
 This scriptKit is for transfering data format from yolov3 to qqwweee's keras-yolov3
