@@ -1,2 +1,2 @@
-# cfwebhook
-这是一个webhook用来检测crowdflower上面的情况
+# Script For DOTA dataset
+About DOTA: https://captain-whu.github.io/DOTA/index.html
