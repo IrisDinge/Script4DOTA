@@ -26,10 +26,10 @@ def transyolo2kerasyolo(labelpath, imagepath):
         s.append(str)
         dj = '\n'.join(s)
         print(dj)
-        file = open('/home/dingjin/tra_val_416.txt','w')
+        file = open('writeout_annotation.txt','w')
         file.write(dj)
         file.close()
 
 if __name__ == "__main__":
-    transyolo2kerasyolo('/data/tmp/dingjin2daniel/DOTA/416/new_tra+val_416/label/',
-                        '/data/tmp/dingjin2daniel/DOTA/416/new_tra+val_416/images/')
+    transyolo2kerasyolo('/labelpath/',
+                        '/imagespath/')
