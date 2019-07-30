@@ -26,4 +26,4 @@ def mergeTxt(filepath, outfile):
         print('finished')
 
 if __name__ == "__main__":
-    mergeTxt('/home/dingjin/DOTA/tra_416_cp/label/','ky.txt')
+    mergeTxt('/labelpath/','annotation.txt')
