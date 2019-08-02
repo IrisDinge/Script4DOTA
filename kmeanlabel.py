@@ -23,7 +23,7 @@ so u can use kmeans.py
 
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)
-df = pd.read_table('/home/dingjin/no0/tra_val_416.txt', header=None, delimiter='\n')
+df = pd.read_table('annotation.txt', header=None, delimiter='\n')
 
 
 df1 = df[0].str.split(' ', expand=True)
@@ -41,6 +41,6 @@ df3.replace(to_replace=np.nan, value='', inplace=True, regex=True)
 
 #print(df3)
 
-np.savetxt(r'/home/dingjin/no0/test.txt', df3.values, fmt='%s', delimiter=' ')
+np.savetxt(r'kmeanslabel.txt', df3.values, fmt='%s', delimiter=' ')
 #df3.to_csv('/home/dingjin/no0/test.csv', index=False, header=None, sep=' ', line_terminator='\n')
 
