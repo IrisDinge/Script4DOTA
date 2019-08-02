@@ -10,4 +10,4 @@ Then begin to use this kit
 
 Attention: it better to be int type
 
-This scriptKit is for transfering data format from yolov3 to qqwweee's keras-yolov3
+This scriptKit is for transfering all data formats u may need in qqwweee's keras-yolov3 also DOTA
