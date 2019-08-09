@@ -1,10 +1,10 @@
 import re
 import os
 
-fn = open('/home/dingjin/tra_val_416.txt', 'r')
+fn = open('qqwweees.txt', 'r')
 fn = fn.read()
 fn = fn.replace(',',' ')
-s = open('/home/dingjin/tra_val.txt', 'w+')
+s = open('fsx950223.txt', 'w+')
 
 s = s.write(fn)
 
