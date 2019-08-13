@@ -32,10 +32,10 @@ def moveFile(fileDir):
 
 
 if __name__ == "__main__":
-    fileDir = '/home/dingjin/DOTA/DOTA/images/'  # original path
-    tarDir = '/home/dingjin/splittest/images/'  # new path
-    labelfileDir = '/home/dingjin/DOTA/DOTA/labelTxt/' #labelTxt
-    labeltarDir = '/home/dingjin/splittest/labelTxt/'
+    fileDir = '/images/'  # original path
+    tarDir = '/splittest/images/'  # new path
+    labelfileDir = '/labelTxt/' #labelTxt
+    labeltarDir = '/splittest/labelTxt/'
     moveFile(fileDir)
 
 
