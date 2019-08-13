@@ -11,13 +11,13 @@ def listfileswtotxt(dir, file, wildcard, recursion):
             for ext in exts:
                 if(name.endswith(ext)):
                     (filename, extension) = os.path.splitext(name)
-                    file.write('/home/dingjin/DOTA/trainingsplit416/images/' + filename + '.png' + '\n')
+                    file.write('path' + filename + '.png' + '\n')
                     break
 
 
 def Test():
-    dir = '/home/dingjin/DOTA/trainingsplit416/images'
-    outfile='/home/dingjin/train416.txt'
+    dir = '~/images'
+    outfile='~/train416.txt'
     wildcard = '.png'
 
     file = open(outfile,'w+')
