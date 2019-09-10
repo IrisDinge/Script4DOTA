@@ -2,7 +2,7 @@ import os
 import os.path
 '''
 this code is going to the contect of all .txt in a .txt
-output will be found in the same directory just lick filepath
+output will be found in the same directory just like filepath
 
 '''
 
