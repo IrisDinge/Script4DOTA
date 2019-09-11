@@ -9,8 +9,11 @@ import string
 
 
 '''
-YOLO format 2 XML 
+
+DOTA format transform to pascal VOC directly
+
 '''
+
 def WriterXMLFiles(filename, path, box_list, label_list, w, h, d):
 
     # dict_box[filename]=json_dict[filename]
@@ -23,7 +26,7 @@ def WriterXMLFiles(filename, path, box_list, label_list, w, h, d):
     root.appendChild(foldername)
 
     nodeFilename = doc.createElement('filename')
-    nodeFilename.appendChild(doc.createTextNode(filename))
+    nodeFilename.appendChild(doc.createTextNode(img_name))
     root.appendChild(nodeFilename)
 
     sourcename = doc.createElement("source")
@@ -111,6 +114,7 @@ def WriterXMLFiles(filename, path, box_list, label_list, w, h, d):
         with open(path + filename, mode='w') as fp:
             doc.writexml(fp, indent='\n', addindent='\t', encoding='UTF-8')
             fp.close()
+    print('1111111111111111111111111111111111111111', img_name)
 
 
 def load_annoataion(p):
@@ -138,9 +142,9 @@ def load_annoataion(p):
         return np.array(text_polys, dtype=np.float32), np.array(text_tags, dtype=np.str)
 
 if __name__ == "__main__":
-    txt_path = './labelTxt/'
-    xml_path = './Annotations/'
-    img_path = './images/'
+    txt_path = '/home/dingjin/test/labelTxt/'
+    xml_path = '/home/dingjin/test/Annotations/'
+    img_path = '/home/dingjin/test/images/'
     print(os.path.exists(txt_path))
     txts = os.listdir(txt_path)
     for count, t in enumerate(txts):
