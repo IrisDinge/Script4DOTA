@@ -1,28 +1,31 @@
 import pandas as pd
+import os
 
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)
-DateFrame = pd.read_table('/home/dingjin/ObjectDetection-OneStageDet/yolo/results/Yolov3/comp4_det_test_baseball-diamond.txt',delimiter=' ', header=None, sep=' ', names=["image_name", "score", "left", "top", "right", "bottom"])
-
-
+original_txt = '/home/dingjin/ObjectDetection-OneStageDet/yolo/results/Yolov3/comp4_det_test_ship.txt'
+DateFrame = pd.read_table(original_txt, delimiter=' ', header=None, sep=' ', names=["image_name", "score", "left", "top", "right", "bottom"])
+dir_name = os.path.split(original_txt)[0]
+name = os.path.split(original_txt)[1]
+name = name.split('_', 3)[3]
+id = name.split('.', 1)[0]
+print(id)
+print(dir_name + '/' + id + '/' + id + '.txt')
+print(dir_name + '/' + id + '/' + 'results.txt')
+print(dir_name + '/' + id + '/' + 'image_name' + '.txt')
 
 class evluation():
 
     def __init__(self):
-        '''
-
-        DateFrame = pd.read_table(path='/home/dingjin/ObjectDetection-OneStageDet/yolo/results/Yolov3/comp4_det_test_baseball-diamond.txt',
-                   delimiter=' ', header=None, sep=' ', names=["image_name", "score", "left", "top", "right", "bottom"])
-        '''
-
+        
         df = DateFrame.drop(labels='score', axis=1)
-        df = df.to_csv('/home/dingjin/ObjectDetection-OneStageDet/yolo/results/Yolov3/baseball-diamond.txt', sep=' ', header=None, index=False)
-        all = pd.read_table('/home/dingjin/ObjectDetection-OneStageDet/yolo/results/Yolov3/baseball-diamond.txt',
+        df = df.to_csv(dir_name + '/' + id + '/' + id + '.txt', sep=' ', header=None, index=False)
+        all = pd.read_table(dir_name + '/' + id + '/' + id + '.txt',
                    delimiter=' ', header=None, sep=' ', names=["image_name", "left", "top", "right", "bottom"])
         image_name = all['image_name']
 
         dd = all.drop(labels='image_name', axis=1)
-        dd = dd.to_csv('/home/dingjin/ObjectDetection-OneStageDet/yolo/results/Yolov3/baseball-diamond/results.txt', sep=' ', header=None, index=False)
+        dd = dd.to_csv(dir_name + '/' + id + '/' + 'results.txt', sep=' ', header=None, index=False)
 
 
         img = []
@@ -34,13 +37,11 @@ class evluation():
             such.append([i, index])
         final = list(such)
 
-        m = pd.read_table('/home/dingjin/ObjectDetection-OneStageDet/yolo/results/Yolov3/baseball-diamond/results.txt', header=None, sep=' ', names=["left", "top", "right", "bottom"])
-        m.insert(0,'class_name', 'baseball-diamond')
+        m = pd.read_table(dir_name + '/' + id + '/' + 'results.txt', header=None, sep=' ', names=["left", "top", "right", "bottom"])
+        m.insert(0,'class_name', id)
         #print(m)
 
-        '''
-        Now, it's going to make single txt with foto name
-        '''
+
         for i in range(len(final)):
             imn = final[i][0]
             index = final[i][1]
@@ -48,11 +49,10 @@ class evluation():
                 p = index[0]
                 q = index[j]
                 n = m.loc[p:q]
-                jieguo = n.to_csv(
-                    '/home/dingjin/ObjectDetection-OneStageDet/yolo/results/Yolov3/baseball-diamond/' + imn + '.txt',
+                jieguo = n.to_csv(dir_name + '/' + id + '/' + imn + '.txt',
                     header=None, sep=' ', index=None)
+                print(jieguo)
 
 Step = evluation()
-
 
 
