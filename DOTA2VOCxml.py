@@ -3,9 +3,8 @@ from xml.dom.minidom import Document
 from xml.dom.minidom import parse
 import xml.dom.minidom
 import numpy as np
-import csv
 import cv2
-import string
+
 
 
 '''
@@ -14,7 +13,7 @@ DOTA format transform to pascal VOC directly
 
 '''
 
-def WriterXMLFiles(filename, path, box_list, label_list, w, h, d):
+def WriterXMLFiles(filename, path, box_list, label_list, difficult_list, w, h, d):
 
     # dict_box[filename]=json_dict[filename]
     doc = xml.dom.minidom.Document()
@@ -44,7 +43,7 @@ def WriterXMLFiles(filename, path, box_list, label_list, w, h, d):
     sourcename.appendChild(imagename)
 
     flickridname = doc.createElement("flickrid")
-    flickridname.appendChild(doc.createTextNode("0"))
+    flickridname.appendChild(doc.createTextNode("000000"))
     sourcename.appendChild(flickridname)
 
     root.appendChild(sourcename)
@@ -65,31 +64,39 @@ def WriterXMLFiles(filename, path, box_list, label_list, w, h, d):
     segname.appendChild(doc.createTextNode("0"))
     root.appendChild(segname)
 
-    for (box, label) in zip(box_list, label_list):
+    for (box, label, difficult) in zip(box_list, label_list, difficult_list):
 
         nodeobject = doc.createElement('object')
         nodename = doc.createElement('name')
         nodename.appendChild(doc.createTextNode(str(label)))
         nodeobject.appendChild(nodename)
+
         nodename = doc.createElement('pose')
         nodename.appendChild(doc.createTextNode('Left'))
         nodeobject.appendChild(nodename)
+
         nodename = doc.createElement('truncated')
         nodename.appendChild(doc.createTextNode('NA'))
         nodeobject.appendChild(nodename)
+
+        nodename = doc.createElement('difficult')
+        nodename.appendChild(doc.createTextNode(str(difficult)))
+        nodeobject.appendChild(nodename)
+
         nodebndbox = doc.createElement('bndbox')
-        nodex1 = doc.createElement('x1')
+        nodex1 = doc.createElement('xmin')
         nodex1.appendChild(doc.createTextNode(str(box[0])))
         nodebndbox.appendChild(nodex1)
-        nodey1 = doc.createElement('y1')
+        nodey1 = doc.createElement('ymin')
         nodey1.appendChild(doc.createTextNode(str(box[1])))
         nodebndbox.appendChild(nodey1)
-        nodex2 = doc.createElement('x2')
+        nodex2 = doc.createElement('xmax')
         nodex2.appendChild(doc.createTextNode(str(box[2])))
         nodebndbox.appendChild(nodex2)
-        nodey2 = doc.createElement('y2')
+        nodey2 = doc.createElement('ymax')
         nodey2.appendChild(doc.createTextNode(str(box[3])))
         nodebndbox.appendChild(nodey2)
+        '''
         nodex3 = doc.createElement('x3')
         nodex3.appendChild(doc.createTextNode(str(box[4])))
         nodebndbox.appendChild(nodex3)
@@ -102,7 +109,7 @@ def WriterXMLFiles(filename, path, box_list, label_list, w, h, d):
         nodey4 = doc.createElement('y4')
         nodey4.appendChild(doc.createTextNode(str(box[7])))
         nodebndbox.appendChild(nodey4)
-
+        '''
         # ang = doc.createElement('angle')
         # ang.appendChild(doc.createTextNode(str(angle)))
         # nodebndbox.appendChild(ang)
@@ -114,7 +121,6 @@ def WriterXMLFiles(filename, path, box_list, label_list, w, h, d):
         with open(path + filename, mode='w') as fp:
             doc.writexml(fp, indent='\n', addindent='\t', encoding='UTF-8')
             fp.close()
-    print('1111111111111111111111111111111111111111', img_name)
 
 
 def load_annoataion(p):
@@ -125,6 +131,7 @@ def load_annoataion(p):
     '''
     text_polys = []
     text_tags = []
+    text_comment = []
     if not os.path.exists(p):
         return np.array(text_polys, dtype=np.float32)
     with open(p, 'r') as f:
@@ -134,28 +141,40 @@ def load_annoataion(p):
             #line = [i.strip('\ufeff').strip('\xef\xbb\xbf') for i in line]
             #print(line)
 
-            x1, y1, x2, y2, x3, y3, x4, y4 ,label= line.split(' ')[0:9]
+            x1, y1, x2, y2, x3, y3, x4, y4, label, difficult = line.split(' ')[0:10]
             #print(label)
-            text_polys.append([x1, y1, x2, y2, x3, y3, x4, y4])
+            #print(difficult)
+            xmin = min(x1, x2, x3, x4)
+            xmax = max(x1, x2, x3, x4)
+            ymin = min(y1, y2, y3, y4)
+            ymax = max(y1, y2, y3, y4)
+            text_polys.append([xmin, ymin, xmax, ymax])
             text_tags.append(label)
+            text_comment.append(difficult)
+            print(label, difficult)
 
-        return np.array(text_polys, dtype=np.float32), np.array(text_tags, dtype=np.str)
+        return np.array(text_polys, dtype=np.float32), np.array(text_tags, dtype=np.str), np.array(text_comment, dtype=np.int)
 
 if __name__ == "__main__":
-    txt_path = '/home/dingjin/test/labelTxt/'
-    xml_path = '/home/dingjin/test/Annotations/'
-    img_path = '/home/dingjin/test/images/'
-    print(os.path.exists(txt_path))
+    txt_path = '/home/dingjin/DOTA/validation800/labelTxt/'
+    xml_path = '/home/dingjin/DOTA/validation800/Annotations/'
+    img_path = '/home/dingjin/DOTA/validation800/images/'
+    #print(os.path.exists(txt_path))
     txts = os.listdir(txt_path)
     for count, t in enumerate(txts):
-        boxes, labels = load_annoataion(os.path.join(txt_path, t))
+        boxes, labels, difficult = load_annoataion(os.path.join(txt_path, t))
         xml_name = t.replace('.txt', '.xml')
         img_name = t.replace('.txt', '.png')
-        print(img_name)
+        #print(img_name)
+        #print(os.path.join(img_path, img_name))
+
+
         img = cv2.imread(os.path.join(img_path, img_name))
+
+
         h, w, d = img.shape
         #print(xml_name, xml_path, boxes, labels, w, h, d)
-        WriterXMLFiles(xml_name, xml_path, boxes, labels, w, h, d)
+        WriterXMLFiles(xml_name, xml_path, boxes, labels, difficult, w, h, d)
 
         if count % 1000 == 0:
             print(count)
