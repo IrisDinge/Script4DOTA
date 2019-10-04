@@ -144,33 +144,49 @@ def load_annoataion(p):
             x1, y1, x2, y2, x3, y3, x4, y4, label, difficult = line.split(' ')[0:10]
             #print(label)
             #print(difficult)
-            xmin = min(x1, x2, x3, x4)
-            xmax = max(x1, x2, x3, x4)
-            ymin = min(y1, y2, y3, y4)
-            ymax = max(y1, y2, y3, y4)
+
+            x1 = float(x1)
+            x2 = float(x2)
+            x3 = float(x3)
+            x4 = float(x4)
+            y1 = float(x1)
+            y2 = float(y2)
+            y3 = float(y3)
+            y4 = float(y4)
+
+
+            xmin = min(min(min(x1, x2), x3), x4)
+            ymin = min(min(min(y1, y2), y3), y4)
+            xmax = max(max(max(x1, x2), x3), x4)
+            ymax = max(max(max(y1, y2), y3), y4)
+
+
+            if xmin > xmax or ymin > ymax:
+                print("wrong!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+
             text_polys.append([xmin, ymin, xmax, ymax])
             text_tags.append(label)
             text_comment.append(difficult)
-            print(label, difficult)
-
+            #print(label, difficult)
+            #print(text_polys)
         return np.array(text_polys, dtype=np.float32), np.array(text_tags, dtype=np.str), np.array(text_comment, dtype=np.int)
 
 if __name__ == "__main__":
-    txt_path = '/home/dingjin/DOTA/validation800/labelTxt/'
-    xml_path = '/home/dingjin/DOTA/validation800/Annotations/'
-    img_path = '/home/dingjin/DOTA/validation800/images/'
+    txt_path = '/home/dingjin/DOTA/train1024/labelTxt/'
+    xml_path = '/home/dingjin/DOTA/train1024/dota/DOTA/Annotations/'
+    img_path = '/home/dingjin/DOTA/train1024/dota/DOTA/JPEGImages/'
     #print(os.path.exists(txt_path))
     txts = os.listdir(txt_path)
     for count, t in enumerate(txts):
         boxes, labels, difficult = load_annoataion(os.path.join(txt_path, t))
         xml_name = t.replace('.txt', '.xml')
-        img_name = t.replace('.txt', '.png')
+        img_name = t.replace('.txt', '.jpg')
         #print(img_name)
         #print(os.path.join(img_path, img_name))
 
 
         img = cv2.imread(os.path.join(img_path, img_name))
-
+        #print(img)
 
         h, w, d = img.shape
         #print(xml_name, xml_path, boxes, labels, w, h, d)
