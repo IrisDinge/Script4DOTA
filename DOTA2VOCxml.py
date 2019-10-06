@@ -153,23 +153,16 @@ def load_annoataion(p):
             y2 = float(y2)
             y3 = float(y3)
             y4 = float(y4)
-
-
             xmin = min(min(min(x1, x2), x3), x4)
             ymin = min(min(min(y1, y2), y3), y4)
             xmax = max(max(max(x1, x2), x3), x4)
             ymax = max(max(max(y1, y2), y3), y4)
-
             width = xmax - xmin
             heigth = ymax - ymin
-
-
             if width < 0 or heigth < 0:
                 print("wrong!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             else:
                 print(xmin, ymin, xmax, ymax)
-
-
             text_polys.append([xmin, ymin, xmax, ymax])
             text_tags.append(label)
             text_comment.append(difficult)
