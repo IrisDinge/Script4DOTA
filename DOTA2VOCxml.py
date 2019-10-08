@@ -149,7 +149,7 @@ def load_annoataion(p):
             x2 = float(x2)
             x3 = float(x3)
             x4 = float(x4)
-            y1 = float(x1)
+            y1 = float(y1)
             y2 = float(y2)
             y3 = float(y3)
             y4 = float(y4)
